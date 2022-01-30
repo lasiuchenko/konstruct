@@ -1,0 +1,13 @@
+body {
+  background-color: rgb(229, 255, 0);
+
+  p {
+    color: black;
+    font-size: 30px;
+    font-family: 'Roboto';
+  }
+}
+
+
+@import "mixin";
+@import "fonts";

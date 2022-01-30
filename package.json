@@ -1,0 +1,19 @@
+{
+  "name": "wawe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lasiuchenko/wawe.git"
+  },
+  "author": "YaroslavLasiuchenko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lasiuchenko/wawe/issues"
+  },
+  "homepage": "https://github.com/lasiuchenko/wawe#readme"
+}

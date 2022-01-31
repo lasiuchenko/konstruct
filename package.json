@@ -6,16 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lasiuchenko/wawe.git"
-  },
   "author": "YaroslavLasiuchenko",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/lasiuchenko/wawe/issues"
-  },
-  "homepage": "https://github.com/lasiuchenko/wawe#readme",
   "devDependencies": {
     "@babel/core": "^7.16.12",
     "@babel/preset-env": "^7.16.11",

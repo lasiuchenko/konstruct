@@ -9,11 +9,14 @@
   <link rel="stylesheet" href="css/style.min.css">
 </head>
 
+@include('components/_header.html')
+@include('components/_navbar.html')
+
 <body>
-  @include('components/_header.html')
-  @include('components/_navbar.html')
-  @include('components/_our-story.html')
-  @include('components/_capabilities.html')
+  <main class="main">
+    @include('components/_our-story.html')
+    @include('components/_capabilities.html')
+  </main>
   <script src="dist/js/main.min.js"></script>
 </body>
 

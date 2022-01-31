@@ -1,0 +1,65 @@
+.our-story {
+  padding: 58px 0 118px;
+
+  &__inner {
+    padding-top: 55px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  &__text {
+    max-width: 400px;
+    width: 100%;
+    margin-right: 77px;
+
+    &--blue {
+      color: $blue;
+      margin-right: 0;
+    }
+
+    &--bold {
+      margin-bottom: 30px;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.2;
+      letter-spacing: 0.009em;
+    }
+  }
+
+  &__list {
+    display: flex;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.0075em;
+    color: $white;
+    text-transform: uppercase;
+  }
+
+  &__item {
+    padding: 15px;
+    width: 140px;
+    height: 224px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    &--plan {
+      background-position: right;
+      background-image: url('../images/bg/plan-bg.jpg');
+    }
+
+    &--manage {
+      background-image: url('../images/bg/manage-bg.jpg');
+    }
+
+    &--build {
+      background-image: url('../images/bg/build-bg.jpg');
+    }
+
+    &:not(:last-child) {
+      margin-right: 20px;
+    }
+  }
+}

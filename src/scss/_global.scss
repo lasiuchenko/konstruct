@@ -1,0 +1,76 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: "OpenSans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  color: $gray;
+}
+
+.main {
+  flex-grow: 1;
+}
+
+.container {
+  max-width: 941px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0 0 0 0);
+  overflow: hidden;
+}
+
+.logo {
+  padding: 42px 0;
+}
+
+.title {
+  padding-bottom: 9px;
+  text-align: center;
+  position: relative;
+  font-size: 18px;
+  line-height: 1.2;
+  letter-spacing: 0.1;
+  text-transform: uppercase;
+
+  &::after {
+    position: absolute;
+    content: '';
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 2px;
+    background-color: $blue;
+  }
+}
+
+.btn {
+  width: 150px;
+  padding: 11px 29px;
+  text-transform: uppercase;
+  color: $white;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.03em;
+  background-color: $blue;
+}

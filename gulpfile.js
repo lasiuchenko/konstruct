@@ -1,10 +1,6 @@
 const { src, dest, watch, parallel, series } = require('gulp')
 const sass = require('gulp-sass')(require('sass'));
-const notify = require('gulp-notify');
-const rename = require('gulp-rename');
 const autoprefixer = require('gulp-autoprefixer');
-const sourcemaps    = require('gulp-sourcemaps');
-const cleanCSS = require('gulp-clean-css');
 const browserSync = require('browser-sync').create();
 const fileInclude = require('gulp-file-include');
 const svgSprite = require('gulp-svg-sprite');
@@ -18,56 +14,66 @@ const imagemin = require('gulp-imagemin');
 const cheerio       = require('gulp-cheerio');
 const replace       = require('gulp-replace');
 
+function browsersync() {
+    browserSync.init({
+        server: {
+            baseDir: 'src/'
+        },
+        notify: false
+    })
+}
+
 const styles = () => {
-  return src('./src/scss/**/*.scss')
-    .pipe(sourcemaps.init())
-    .pipe(sass({ outputStyle: 'compressed' }).on('error', notify.onError()))
-    .pipe(rename({
-      suffix: '.min'
-    }))
+  return src('src/scss/style.scss')
+    .pipe(sass({ outputStyle: 'compressed' }))
+    .pipe(concat('style.min.css'))
     .pipe(autoprefixer({
-      cascade: false,
-      // overrideBrowserslist: ['last 10 versions'],
-      // grid: true
+      overrideBrowserslist: ['last 10 versions'],
+      grid: true
     }))
-    .pipe(cleanCSS({
-      level: 2
-    }))
-    .pipe(sourcemaps.write('.'))
-    .pipe(dest('./app/css'))
+    .pipe(dest('src/css'))
     .pipe(browserSync.stream())
 }
 
 function scripts() {
-  return src('./src/js/main.js')
-  .pipe(sourcemaps.init())
+  return src('src/js/main.js')
   .pipe(babel({
     presets: ['@babel/env']
   }))
+    .pipe(concat('main.min.js'))
   .pipe(uglify())
-  .pipe(concat('main.min.js'))
-  .pipe(sourcemaps.write())
-  .pipe(dest('./app/js/'))
+  .pipe(dest('src/js'))
   .pipe(browserSync.stream())
 }
 
 const htmlInclude = () => {
-  return src(['./src/html/*.html'])		
+  return src(['src/html/*.html'])		
   .pipe(fileInclude({
     prefix: '@',
     basepath: '@file',
   }))
-  .pipe(dest('./app'))
+  .pipe(dest('src'))
   .pipe(browserSync.stream());
 }
 
-const imgToApp = () => {
-  return src('./src/images/**/*.*')
-    .pipe(dest('./app/images'))
+const images = () => {
+  return src('src/images/**./*.*')
+    .pipe(imagemin([
+	    imagemin.gifsicle({interlaced: true}),
+	    imagemin.mozjpeg({quality: 75, progressive: true}),
+	    imagemin.optipng({optimizationLevel: 5}),
+	    imagemin.svgo({
+		    plugins: [
+			    {removeViewBox: true},
+			    {cleanupIDs: false}
+		    ]
+	    })
+    ]))
+    .pipe(dest('dist/images'))
 }
 
 const svgSprites = () => {
-  return src('./src/images/icons/**.svg')
+  return src('src/images/icons/*.svg')
     .pipe(cheerio({
       run: ($) => {
         $("[fill]").removeAttr("fill");
@@ -87,13 +93,13 @@ const svgSprites = () => {
         },
       })
     )
-    .pipe(dest('./app/images'))
+    .pipe(dest('src/images'))
 }
 
 const fonts = () => {
   return src('./src/fonts/**.ttf')
     .pipe(ttf2woff2())
-    .pipe(dest('./app/fonts'))
+    .pipe(dest('src/fonts'))
 }
 
 const checkWeight = (fontname) => {
@@ -136,8 +142,8 @@ const checkWeight = (fontname) => {
 }
 
 const cb = () => {}
-let srcFonts = './src/scss/_fonts.scss';
-let appFonts = './app/fonts/';
+let srcFonts = 'src/scss/_fonts.scss';
+let appFonts = 'src/fonts/';
 
 const fontsStyle = (done) => {
   let file_content = fs.readFileSync(srcFonts);
@@ -162,74 +168,62 @@ const fontsStyle = (done) => {
   done();
 }
 
-function clean() {
-  return del(['app/*'])
-}
-
 const watching = () => {
-  browserSync.init({
-    server: {
-      baseDir: './app'
-    },
-    notify: false
-  })
-
-  watch('./src/scss/**/*.scss', styles)
-  watch('./src/html/*.html', htmlInclude)
-  watch('./src/images/**/*.*', imgToApp)
-  // watch(['./src/**/*.html']).on('change', browserSync.reload)
-  watch('./src/images/**.svg', svgSprites)
-  watch(['./src/js/**/*.js', '!src/js/main.min.js'], scripts)
-  watch('./src/fonts/**.ttf', fonts)
-  watch('./src/fonts/**.ttf', fontsStyle)
+  watch(['src/scss/**/*.scss'], styles)
+  watch(['src/html/**/*.html'], htmlInclude)
+  watch(['src/images/**/*.*'], images)
+  watch(['src/**/*.html']).on('change', browserSync.reload)
+  watch(['src/images/**.svg'], svgSprites)
+  watch(['src/js/**/*.js', '!src/js/main.min.js'], scripts)
+  watch(['src/fonts/**.ttf'], fonts)
+  watch(['src/fonts/**.ttf'], fontsStyle)
 }
 
 exports.styles = styles;
 exports.htmlInclude = htmlInclude;
 exports.watching = watching;
 
-exports.default = series(clean, parallel(htmlInclude, scripts, fonts, svgSprites, imgToApp), fontsStyle, styles, watching)
+exports.default = parallel(htmlInclude, scripts, fonts, svgSprites, fontsStyle, styles, browsersync, watching)
 
 
-const stylesBuild = () => {
-  return src('./src/scss/**/*.scss')
-    .pipe(sass({ outputStyle: 'compressed' }).on('error', notify.onError()))
-    .pipe(rename({
-      suffix: '.min'
-    }))
-    .pipe(autoprefixer({
-      cascade: false,
-    }))
-    .pipe(cleanCSS({
-      level: 2
-    }))
-    .pipe(dest('./app/css'))
+// const stylesBuild = () => {
+//   return src('./src/scss/**/*.scss')
+//     .pipe(sass({ outputStyle: 'compressed' }).on('error', notify.onError()))
+//     .pipe(rename({
+//       suffix: '.min'
+//     }))
+//     .pipe(autoprefixer({
+//       cascade: false,
+//     }))
+//     .pipe(cleanCSS({
+//       level: 2
+//     }))
+//     .pipe(dest('./app/css'))
+// }
+// 
+// function scriptsBuild() {
+//   return src('./src/js/main.js')
+//   .pipe(babel({
+//     presets: ['@babel/env']
+//   }))
+//   .pipe(uglify())
+//   .pipe(concat('main.min.js'))
+//   .pipe(dest('./app/js/'))
+// }
+
+function build() {
+    return src([
+        'src/**/*.html',
+        'src/css/style.min.css',
+        'src/js/main.min.js',
+        'src/fonts/',
+    ], {base: 'src'})
+    .pipe(dest('dist'))
 }
 
-function scriptsBuild() {
-  return src('./src/js/main.js')
-  .pipe(babel({
-    presets: ['@babel/env']
-  }))
-  .pipe(uglify())
-  .pipe(concat('main.min.js'))
-  .pipe(dest('./app/js/'))
+function cleanDist() {
+    return del('dist')
 }
 
-const images = () => {
-  return src('./src/images/**./*.*')
-    .pipe(imagemin([
-	    imagemin.gifsicle({interlaced: true}),
-	    imagemin.mozjpeg({quality: 75, progressive: true}),
-	    imagemin.optipng({optimizationLevel: 5}),
-	    imagemin.svgo({
-		    plugins: [
-			    {removeViewBox: true},
-			    {cleanupIDs: false}
-		    ]
-	    })
-    ]))
-    .pipe(dest('./app/images'))
-}
 
-exports.build = series(clean, parallel(htmlInclude, scriptsBuild, fonts, svgSprites, imgToApp), fontsStyle, stylesBuild, images)
+exports.build = series(cleanDist, images, build)

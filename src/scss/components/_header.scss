@@ -1,0 +1,38 @@
+.header {
+  background-image: url(../images/bg/header-bg.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  &__inner {
+    min-height: calc(100vh);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    color: $white;
+    line-height: 1.2;
+  }
+
+  &__title {
+    margin-top: auto;
+    margin-bottom: 20px;
+    font-family: "BebasNeue", cursive;
+    font-weight: 400;
+    font-size: 60px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  &__subtitle {
+    margin-bottom: auto;
+    font-size: 16px;
+  }
+
+  &__link {
+    padding-bottom: 71px;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: $gray-dark;
+  }
+}

@@ -1,4 +1,6 @@
 .capabilities {
+  padding-bottom: 115px;
+
   &__top {
     display: flex;
     justify-content: space-between;
@@ -37,6 +39,7 @@
   }
 
   &__item {
+    position: relative;
     width: calc(100% / 3);
     padding: 138px 23px 39px;
     border: 1px solid $gray-light;
@@ -44,5 +47,34 @@
     &:not(:last-child) {
       margin-right: 28px;
     }
+
+    &::before {
+      position: absolute;
+      content: '';
+      top: 32px;
+      left: 28px;
+      width: 68px;
+      height: 75px;
+    }
+
+    &--project::before {
+      background-image: url('../images/capabilities/project.png');
+    }
+
+    &--structure::before {
+      background-image: url('../images/capabilities/structure.png');
+    }
+
+    &--factory::before {
+      background-image: url('../images/capabilities/factory.png');
+    }
+  }
+
+  &__item-title {
+    margin-bottom: 13px;
+    font-size: 15px;
+    line-height: 1.5;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
   }
 }

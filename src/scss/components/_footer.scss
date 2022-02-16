@@ -1,0 +1,43 @@
+.footer {
+  padding: 42px 0;
+  background-color: $black-800;
+  font-size: 11px;
+  color: $white;
+
+  &__list {
+    display: flex;
+  }
+
+  &__item:not(:last-child) {
+    margin-right: 62px;
+  }
+
+  &__item-title {
+    margin-bottom: 19px;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  &__item-text {
+    line-height: 1.7;
+  }
+
+  .logo {
+    padding: 0;
+    margin-bottom: 15px;
+  }
+}
+
+.footer-nav {
+  max-width: 252px;
+  width: 100%;
+
+  &__list {
+    column-count: 3;
+  }
+
+  &__item {
+    margin-bottom: 5px;
+    text-transform: uppercase;
+  }
+}

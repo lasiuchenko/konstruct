@@ -73,7 +73,7 @@ const images = () => {
 }
 
 const svgSprites = () => {
-  return src('src/images/icons/*.svg')
+  return src('src/images/icons/**/*.svg')
     .pipe(cheerio({
       run: ($) => {
         $("[fill]").removeAttr("fill");

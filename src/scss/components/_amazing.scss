@@ -1,0 +1,19 @@
+.amazing {
+  padding-top: 120px;
+  min-height: 500px;
+  background-image: url('../images/bg/town-bg.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  &__inner {
+    text-align: center;
+  }
+
+  &__title {
+    margin-bottom: 35px;
+    font-size: 30px;
+    line-height: 1.2;
+    letter-spacing: 0.005em;
+  }
+}
